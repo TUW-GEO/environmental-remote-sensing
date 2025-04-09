@@ -1,0 +1,10 @@
+name: environmental-remote-sensing
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - mamba
+  - jupyter
+  - pandas
+  - matplotlib
