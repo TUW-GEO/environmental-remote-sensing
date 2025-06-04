@@ -1,4 +1,4 @@
-TODO: Add you lecture description.
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/tuw-geo/environmental-remote-sensing/main)
 
 # Generate Jupyter Conda environment and Jupyter Kernel from `yml`
 
