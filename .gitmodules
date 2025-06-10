@@ -1,0 +1,3 @@
+[submodule "data"]
+	path = data
+	url = git@git.geo.tuwien.ac.at:public_projects/environmental-remote-sensing.git

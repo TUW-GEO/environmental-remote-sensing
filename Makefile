@@ -38,8 +38,7 @@ environment: $(CONDA_ENV_DIR)
 
 $(KERNEL_DIR): $(CONDA_ENV_DIR)
 	$(CONDA_ACTIVATE)
-	python -m ipykernel install --user --name environmental-remote-sensing; \
-		--display-name environmental-remote-sensing
+	python -m ipykernel install --user --name environmental-remote-sensing --display-name environmental-remote-sensing
 	conda deactivate
 
 kernel: $(KERNEL_DIR)

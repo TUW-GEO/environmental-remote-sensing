@@ -2,9 +2,15 @@ name: environmental-remote-sensing
 channels:
   - conda-forge
 dependencies:
-  - python=3.10
+  - python=3.11
   - pip
   - mamba
   - jupyter
   - pandas
   - matplotlib
+  - hvplot
+  - datashader
+  - geoviews
+  - dask
+  - jupyter_bokeh
+  - cmap
