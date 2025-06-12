@@ -11,6 +11,6 @@ dependencies:
   - hvplot
   - datashader
   - geoviews
+  - cartopy
   - dask
   - jupyter_bokeh
-  - cmap
