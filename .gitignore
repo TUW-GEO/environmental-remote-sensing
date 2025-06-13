@@ -61,3 +61,4 @@ venv
 /.quarto/
 _site/
 /README_files/libs/
+.ipynb_checkpoints/
