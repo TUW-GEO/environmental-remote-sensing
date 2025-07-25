@@ -6,6 +6,7 @@ dependencies:
   - pip
   - mamba
   - jupyter
+  - hda
   - pandas
   - lxml
   - matplotlib
