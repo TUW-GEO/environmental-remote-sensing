@@ -62,3 +62,8 @@ venv
 _site/
 /README_files/libs/
 .ipynb_checkpoints/
+.env
+
+# data
+**/*.buf
+**/*.nc
