@@ -27,7 +27,6 @@ dependencies:
   - pip:
       - ascat
       - pdbufr
-      - python-dotenv
       - pynetcf
       - pre-commit
       - pyswi
