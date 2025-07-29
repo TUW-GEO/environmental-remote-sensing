@@ -24,6 +24,15 @@ dependencies:
   - statsmodels
   - aiohttp
   - zarr=2.18.4
+  - mamba
+  - matplotlib
+  - odc
+  - odc-geo
+  - odc-stac
+  - pandas
+  - pip
+  - pystac-client
+  - xarray
   - pip:
       - ascat
       - pdbufr
