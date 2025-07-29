@@ -1,8 +1,0 @@
-hvplot
-pandas
-matplotlib
-datashader
-geoviews
-cartopy
-dask
-jupyter_bokeh
