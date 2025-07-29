@@ -3,21 +3,27 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
-  - pip
-  - mamba
-  - jupyter
-  - hda
-  - pandas
-  - lxml
-  - matplotlib
-  - hvplot
-  - datashader
-  - geoviews
   - cartopy
   - dask
+  - datashader
+  - geoviews
+  - hda
+  - hvplot
+  - jupyter
   - jupyter_bokeh
+  - lxml
+  - mamba
+  - matplotlib
+  - matplotlib
+  - odc
+  - odc-geo
+  - odc-stac
+  - pandas
+  - pip
+  - pystac-client
+  - xarray
   - pip:
       - ascat
       - pdbufr
-      - python-dotenv
       - pynetcf
+      - python-dotenv
