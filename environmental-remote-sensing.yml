@@ -16,6 +16,11 @@ dependencies:
   - cartopy
   - dask
   - jupyter_bokeh
+  - rioxarray
+  - xarray
+  - pyjwt
+  - netcdf4
+  - cryptography
   - pip:
       - ascat
       - pdbufr
