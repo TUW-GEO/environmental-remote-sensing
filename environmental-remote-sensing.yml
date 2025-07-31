@@ -16,6 +16,9 @@ dependencies:
   - cartopy
   - dask
   - jupyter_bokeh
+  - requests
+  - aiohttp
+  - zarr=2.18.4
   - pip:
       - ascat
       - pdbufr
