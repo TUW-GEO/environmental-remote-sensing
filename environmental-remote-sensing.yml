@@ -2,8 +2,9 @@ name: environmental-remote-sensing
 channels:
   - conda-forge
 dependencies:
-  - python=3.11
+  - python==3.11
   - cartopy
+  - cmcrameri
   - dask
   - datashader
   - geoviews
@@ -14,12 +15,15 @@ dependencies:
   - lxml
   - mamba
   - matplotlib
+  - numpy
   - odc
   - odc-geo
   - odc-stac
   - pandas
   - pip
   - pystac-client
+  - rioxarray
+  - scikit-learn
   - xarray
   - pip:
       - ascat
