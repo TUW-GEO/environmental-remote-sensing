@@ -13,6 +13,7 @@ dependencies:
   - lxml
   - matplotlib
   - hvplot
+  - dask
   - datashader
   - geoviews
   - cartopy
@@ -26,12 +27,15 @@ dependencies:
   - zarr=2.18.4
   - mamba
   - matplotlib
+  - numpy
   - odc
   - odc-geo
   - odc-stac
   - pandas
   - pip
   - pystac-client
+  - rioxarray
+  - scikit-learn
   - xarray
   - pip:
       - ascat
