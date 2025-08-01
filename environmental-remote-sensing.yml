@@ -24,3 +24,4 @@ dependencies:
       - pdbufr
       - python-dotenv
       - pynetcf
+      - pre-commit
