@@ -1,6 +1,20 @@
 import pandas as pd
 from pathlib import Path
 
+
+def extract_extra_attrs(granule):
+
+    att_pairs = {}
+    for att in dict(granule.items())["umm"]["AdditionalAttributes"]:
+
+        att_name, att_values = att["Name"], att["Values"]
+        if len(att_values) == 1:
+            att_pairs[att_name] = att_values[0]
+    
+    return att_pairs
+
+
+
 def tabulate_hls_uris(iterable):
 
     uri_pile, info_pile, name_pile = [], [], []
@@ -43,6 +57,7 @@ def tabulate_hls_uris(iterable):
     uri_frame["stem"] = name_pile
     uri_frame["suffix"] = uri_frame["suffix"].replace("B8A", "B08A")
     return uri_frame.sort_values(["stem", "suffix"], ascending=True)
+
 
 def harmonize_hls_frame(uri_frame):
 
