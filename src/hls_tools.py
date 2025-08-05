@@ -81,4 +81,4 @@ def harmonize_hls_frame(uri_frame):
         )
     
     # Concatenate and return
-    return pd.concat([landsat_frame, sentinel_frame], axis=0)
+    return pd.concat([landsat_frame, sentinel_frame], axis=0).sort_index()
