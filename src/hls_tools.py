@@ -1,5 +1,9 @@
+from datetime import datetime as dt
+import numpy as np
 import pandas as pd
 from pathlib import Path
+import re
+import xarray as xr
 
 
 def extract_extra_attrs(granule):
@@ -82,3 +86,60 @@ def harmonize_hls_frame(uri_frame):
     
     # Concatenate and return
     return pd.concat([landsat_frame, sentinel_frame], axis=0).sort_index()
+
+
+def att2time(att):
+    if (";" in att) or ("+" in att):
+        split_time = re.split("\s?[\+\;]\s", att)
+        start, end = [dt.fromisoformat(s[:-1]) for s in split_time]
+        time = start + (end - start)/2
+    else:
+        time = dt.fromisoformat(att[:-1])
+    return time
+
+
+def preprocess_fmask(fmask):
+
+    debanded = fmask["band_data"]
+    bits = xr.apply_ufunc(
+        np.unpackbits,
+        debanded,
+        input_core_dims=[["band", "y", "x"]],
+        output_core_dims=[["flag", "y", "x"]],
+        exclude_dims=set(["band"]),
+        keep_attrs=True,
+        kwargs={"axis": 0},
+        dask="allowed"
+    )
+
+    # Convert the flags to bool, set the names
+    flags = bits.sel(flag=slice(2, 9)).astype(bool)
+    flags["flag"] = [
+        "water", "snow/ice",
+        "cloud shadow", "adjacent to cloud", "cloud", "cirrus cloud"
+    ]
+    flags.name = "masks"
+
+    # Convert the aerosol data, set the name
+    aerosol_parts = bits.sel(flag=slice(0, 2))
+    aerosol = (
+        (aerosol_parts.sel(flag=1) + 10 * aerosol_parts.sel(flag=0))
+        )
+    aerosol.name = "aerosol"
+
+    # set the time
+    time = att2time(debanded.attrs["SENSING_TIME"])
+    return xr.merge([flags, aerosol]).expand_dims({"time": [time]}, axis=0)
+
+
+# flags = preprocess_fmask(fmask)
+def preprocess_bands(bands):
+
+    # Set the band names
+    renames = {}
+    for var_name in bands.keys():
+        renames[var_name] = bands[var_name].attrs["long_name"]
+    
+    # Set the time
+    time = att2time(bands.attrs["SENSING_TIME"])
+    return bands.rename_vars(renames).expand_dims({"time": [time]})
