@@ -1,7 +1,6 @@
 import matplotlib
 import pandas as pd
-
-from src.download_path import make_url
+from download_path import make_url
 
 
 def load_cmap():
