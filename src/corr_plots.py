@@ -13,6 +13,7 @@ def plot_predicted_values(df, variables, suffix=None, **kwargs):
         suffix = [""] * len(variables)
     for i, key in enumerate(variables):
         _plot_predicted_values(axes[i], df, key, variables[key], suffix[i])
+    plt.close()
     return fig
 
 
@@ -42,6 +43,12 @@ def _plot_predicted_values(ax, df, variable, res, suffix):
 
 
 def plot_step_corr(df, var1, var2="copy", length=72):
+    p = _plot_step_corr(df, var1, var2, length)
+    plt.close()
+    return p
+
+
+def _plot_step_corr(df, var1, var2="copy", length=72):
     def step_corr(x):
         # clear frame
         fig.clear()
@@ -75,7 +82,6 @@ def plot_step_corr(df, var1, var2="copy", length=72):
         plt.title("Correlation result")
 
     fig = plt.figure(figsize=(12, 5))
-
     frames = np.arange(1, length, 1)
     anim = FuncAnimation(fig, step_corr, frames, interval=500)
     return HTML(anim.to_html5_video())
