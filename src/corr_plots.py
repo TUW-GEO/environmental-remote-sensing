@@ -1,9 +1,15 @@
+from pathlib import Path
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import statsmodels.tsa.stattools as smt
 from IPython.display import HTML
 from matplotlib.animation import FuncAnimation
+
+plt.rcParams["animation.ffmpeg_path"] = str(
+    Path("../.conda_envs/environmental-remote-sensing/bin/ffmpeg").resolve()
+)
 
 
 def plot_predicted_values(df, variables, suffix=None, **kwargs):
