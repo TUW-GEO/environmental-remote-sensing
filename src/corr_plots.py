@@ -13,7 +13,8 @@ from matplotlib.animation import FuncAnimation
 def get_conda_env_path():
     result = subprocess.run(["conda", "info", "--json"], capture_output=True, text=True)
     info = json.loads(result.stdout)
-    return info.get("active_prefix")
+    envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
+    return [s for s in envs if str(Path.cwd().name / Path(".conda_envs")) in s]
 
 
 ffmpeg_path = Path(get_conda_env_path()) / Path("bin/ffmpeg")
