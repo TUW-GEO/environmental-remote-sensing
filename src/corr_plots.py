@@ -14,10 +14,10 @@ def get_conda_env_path():
     result = subprocess.run(["conda", "info", "--json"], capture_output=True, text=True)
     info = json.loads(result.stdout)
     envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
-    return [s for s in envs if str(Path.cwd().name / Path(".conda_envs")) in s]
+    return [s for s in envs if "/environmental-remote-sensing/.conda_envs" in s]
 
 
-ffmpeg_path = Path(get_conda_env_path()) / Path("bin/ffmpeg")
+ffmpeg_path = Path(get_conda_env_path()[0]) / Path("bin/ffmpeg")
 print(f"Resolve path ffmpeg: {ffmpeg_path}")
 
 plt.rcParams["animation.ffmpeg_path"] = str(ffmpeg_path)
