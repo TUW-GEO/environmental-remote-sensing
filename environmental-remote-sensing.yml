@@ -28,3 +28,4 @@ dependencies:
       - python-dotenv
       - pynetcf
       - pre-commit
+      - pyswi
