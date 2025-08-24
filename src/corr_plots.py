@@ -33,7 +33,8 @@ def get_conda_env_path():
     else:
         # when cached on GH actions
         if envs == []:
-            return ".conda_envs/environmental-remote-sensing"
+            ROOT_GH_CACHE = "/home/runner/work/eo-datascience/eo-datascience/"
+            return ROOT_GH_CACHE + ".conda_envs/environmental-remote-sensing"
         else:
             return [s for s in envs if f"{get_git_repo_name()}/.conda_envs" in s][0]
 
