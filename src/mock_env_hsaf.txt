@@ -1,0 +1,2 @@
+USER_HSAF=<your_email_here>
+PASS_HSAF=<your_password_here>
