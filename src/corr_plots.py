@@ -31,7 +31,11 @@ def get_conda_env_path():
     if get_git_repo_name() is None:
         return envs[0]
     else:
-        return [s for s in envs if f"{get_git_repo_name()}/.conda_envs" in s][0]
+        # when cached on GH actions
+        if envs == []:
+            return ".conda_envs/environmental-remote-sensing"
+        else:
+            return [s for s in envs if f"{get_git_repo_name()}/.conda_envs" in s][0]
 
 
 ffmpeg_path = Path(get_conda_env_path()) / Path("bin/ffmpeg")
