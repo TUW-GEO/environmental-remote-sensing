@@ -115,7 +115,7 @@ def preprocess_fmask(fmask):
     # Convert the flags to bool, set the names
     flags = bits.sel(flag=slice(2, 9)).astype(bool)
     flags["flag"] = [
-        "water", "snow/ice",
+        "water", "snow or ice",
         "cloud shadow", "adjacent to cloud", "cloud", "cirrus cloud"
     ]
     flags.name = "masks"
