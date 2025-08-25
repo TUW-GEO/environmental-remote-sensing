@@ -3,21 +3,21 @@ import rasterio as rio
 from rasterio import windows
 from shapely import box
 
-def clipped_read(entries, location):
 
+def clipped_read(entries, location):
     if isinstance(entries, pd.Series):
         entries = entries.to_dict()
     elif isinstance(entries, dict):
-        entres = entries
+        entries = entries
     else:
-        raise TypeError(f"entries must be a pandas series or a dictionary, not {type(entries)}")
-    
+        raise TypeError(
+            f"entries must be a pandas series or a dictionary, not {type(entries)}"
+        )
+
     # Retrieve the content of the rasters
     array_pairs, profile_pairs, tag_pairs = {}, {}, {}
     for raster_name, raster_path in entries.items():
-
         with rio.open(raster_path) as raster:
-
             # Set the profile
             profile = raster.profile
 
@@ -32,13 +32,13 @@ def clipped_read(entries, location):
             profile["transform"] = windows.transform(window, profile["transform"])
             profile["height"] = window.height
             profile["width"] = window.width
-            
+
             # Do a PARTIAL reading, set profiles and tags
             array_pairs[raster_name] = raster.read(1, window=window)
 
             profile_pairs[raster_name] = pd.Series(profile)
             tag_pairs[raster_name] = pd.Series(raster.tags())
-       
+
     # Concatenate the profiles and the tags
     profile_frame = pd.concat(profile_pairs, axis=1).T
     tag_frame = pd.concat(tag_pairs, axis=1).T
@@ -46,14 +46,13 @@ def clipped_read(entries, location):
 
 
 def write_raster(array_pairs, profile_frame, tag_frame, raster_path):
-
     # Check for duplicate entries on the profiles
     nunique_profiles = profile_frame.nunique(axis=0)
-    several_profiles = (nunique_profiles > 1)
+    several_profiles = nunique_profiles > 1
     if several_profiles.any():
         offending_entries = nunique_profiles[several_profiles].index.tolist()
         raise RuntimeError(f"{offending_entries} have several possible values")
-    
+
     # make the output profile and update
     out_profile = profile_frame.drop_duplicates().iloc[0].to_dict()
     out_profile["count"] = len(array_pairs)
@@ -65,19 +64,17 @@ def write_raster(array_pairs, profile_frame, tag_frame, raster_path):
 
     # Write the output file
     with rio.open(raster_path, "w", **out_profile) as out_raster:
-
         # update the scales and offsets
         if "add_offset" in tag_frame.columns:
             out_raster.offsets = tag_frame["add_offset"].astype(float)
-        
+
         if "scale_factor" in tag_frame.columns:
             out_raster.scales = tag_frame["scale_factor"].astype(float)
-        
+
         # Update the tags
         out_raster.update_tags(**tags)
 
         # out_raster.update_tags(**{k.replace(" ", "_"): v for k, v in tags.items()})
         for band_idx, (band_name, band_data) in enumerate(array_pairs.items(), 1):
-
             out_raster.write(band_data, band_idx)
             out_raster.set_band_description(band_idx, band_name)
