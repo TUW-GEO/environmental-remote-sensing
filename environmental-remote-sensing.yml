@@ -18,7 +18,7 @@ dependencies:
   - cartopy
   - dask
   - pyogrio
-  - rioxarrays
+  - rioxarray
   - jupyter_bokeh
   - requests
   - statsmodels
