@@ -23,6 +23,7 @@ dependencies:
   - requests
   - statsmodels
   - aiohttp
+  - scikit-learn
   - zarr=2.18.4
   - pip:
       - ascat
