@@ -9,7 +9,7 @@ def load_cmap():
 
     path = r"colour-tables%2Fssm-continuous.ct"
     df = pd.read_fwf(
-        make_url(path, "false", verbose=False), names=["R", "G", "B"], nrows=200
+        make_url(path, lfs="false", verbose=False), names=["R", "G", "B"], nrows=200
     )
     brn_yl_bu_colors = df.apply(to_hex_str, axis=1).to_list()
     return matplotlib.colors.LinearSegmentedColormap.from_list("", brn_yl_bu_colors)
