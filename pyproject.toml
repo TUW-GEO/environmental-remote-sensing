@@ -1,0 +1,50 @@
+[tool.ruff]
+exclude = [
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "build",
+    "dist",
+    "site-packages",
+    "venv",
+]
+line-length = 88
+indent-width = 4
+target-version = "py313"
+# unsafe-fixes = true
+
+[tool.ruff.lint]
+select = ["ALL"]  # Subsets could also be used if that is too much
+ignore = [
+    "ANN401", # Any type in func args are not allowed
+    "D203",   # no blank lines between class def and docstring
+    "D213",   # multiline summary should start in first line
+    "PGH",    # pygrep hooks are ignored
+    "TD002",  # todo author assignment is ignored
+    "TD003",  # todo issue assignment is ignored
+    "T201",   # allow print statements
+    "COM812", # missing trailing comma is disabled
+]
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+docstring-code-format = false  # maybe true? Should replace blackdoc
+docstring-code-line-length = "dynamic"
+
+[tool.ruff.lint.isort]
+known-third-party = ["IPython","download_path","matplotlib","numpy","pandas","statsmodels"]
