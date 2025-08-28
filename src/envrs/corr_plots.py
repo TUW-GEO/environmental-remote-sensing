@@ -25,18 +25,18 @@ def get_git_repo_name():
 
 
 def get_conda_env_path():
-    result = subprocess.run(["conda", "info", "--json"], capture_output=True, text=True)
+    result = subprocess.run(
+        ["conda", "info", "--json"], check=False, capture_output=True, text=True
+    )
     info = json.loads(result.stdout)
     envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
     if get_git_repo_name() is None:
         return envs[0]
-    else:
-        # when cached on GH actions
-        if envs == []:
-            ROOT_GH_CACHE = "/home/runner/work/eo-datascience/eo-datascience/"
-            return ROOT_GH_CACHE + ".conda_envs/environmental-remote-sensing"
-        else:
-            return [s for s in envs if f"{get_git_repo_name()}/.conda_envs" in s][0]
+    # when cached on GH actions
+    if envs == []:
+        ROOT_GH_CACHE = "/home/runner/work/eo-datascience/eo-datascience/"
+        return ROOT_GH_CACHE + ".conda_envs/environmental-remote-sensing"
+    return [s for s in envs if f"{get_git_repo_name()}/.conda_envs" in s][0]
 
 
 ffmpeg_path = Path(get_conda_env_path()) / Path("bin/ffmpeg")
