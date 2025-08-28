@@ -26,14 +26,14 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["ALL"]  # Subsets could also be used if that is too much
 ignore = [
-    "ANN401", # Any type in func args are not allowed
-    "D203",   # no blank lines between class def and docstring
-    "D213",   # multiline summary should start in first line
+    "ANN401", # any-type (in func args)
+    "D203",   # incorrect-blank-line-before-class
+    "D213",   # multi-line-summary-second-line (opposite to D212)
     "PGH",    # pygrep hooks are ignored
-    "TD002",  # todo author assignment is ignored
-    "TD003",  # todo issue assignment is ignored
-    "T201",   # allow print statements
-    "COM812", # missing trailing comma is disabled
+    "TD002",  # missing-todo-author
+    "TD003",  # missing-todo-link
+    "T201",   # print (should not be used)
+    "COM812", # missing-trailing-comma
 ]
 fixable = ["ALL"]
 unfixable = []
