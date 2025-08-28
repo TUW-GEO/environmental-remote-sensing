@@ -68,4 +68,5 @@ _site/
 # data
 **/*.buf
 **/*.nc
+**/*.zarr
 data/*
