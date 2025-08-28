@@ -32,4 +32,4 @@ dependencies:
       - pynetcf
       - pre-commit
       - pyswi
-      - -e .
+      - .
