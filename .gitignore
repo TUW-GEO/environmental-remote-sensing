@@ -22,6 +22,7 @@ __pycache__/*
 .idea
 .vscode
 tags
+.mypy_cache/
 
 # Package files
 *.egg
@@ -67,4 +68,5 @@ _site/
 # data
 **/*.buf
 **/*.nc
+**/*.zarr
 data/*
