@@ -35,7 +35,8 @@ target-version = "py313"
 [tool.ruff.lint]
 select = ["ALL"]  # Subsets could also be used if that is too much
 ignore = [
-    "ANN401", # any-type (in func args)
+    "ANN",
+    # "ANN401", # any-type (in func args)
     "D203",   # incorrect-blank-line-before-class
     "D213",   # multi-line-summary-second-line (opposite to D212)
     "PGH",    # pygrep hooks are ignored
@@ -43,6 +44,10 @@ ignore = [
     "TD003",  # missing-todo-link
     "T201",   # print (should not be used)
     "COM812", # missing-trailing-comma
+    "EXE002", # shebang-missing-executable-file
+    "PLR0913", # too-many-arguments
+    "D103", # undocumented-public-function
+
 ]
 fixable = ["ALL"]
 unfixable = []
