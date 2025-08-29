@@ -16,6 +16,7 @@ dependencies:
   - hda
   - hvplot
   - isort
+  - importlib-metadata=4.13.0
   - jupyter
   - jupyter_bokeh
   - lxml
