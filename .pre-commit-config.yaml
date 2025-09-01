@@ -20,12 +20,6 @@ repos:
       # Run the formatter.
       - id: ruff-format
 
-  # NOTE: Not sure if covered by ruff
-  - repo: https://github.com/asottile/seed-isort-config
-    rev: v2.2.0
-    hooks:
-      - id: seed-isort-config
-
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v3.1.0
     hooks:

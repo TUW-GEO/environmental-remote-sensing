@@ -2,28 +2,37 @@ name: environmental-remote-sensing
 channels:
   - conda-forge
 dependencies:
-  - python=3.13
-  - pip
-  - mamba
-  - jupyter
-  - hda
-  - ffmpeg
-  - folium
-  - pandas
-  - lxml
-  - matplotlib
-  - hvplot
-  - datashader
-  - geoviews
+  - aiohttp
+  - black
   - cartopy
   - dask
-  - pyogrio
-  - rioxarray
+  - datashader
+  - earthaccess
+  - ffmpeg
+  - fiona
+  - flake8-nb
+  - folium
+  - geoviews
+  - hda
+  - hvplot
+  - isort
+  - importlib-metadata=4.13.0
+  - jupyter
   - jupyter_bokeh
+  - lxml
+  - mamba
+  - matplotlib
+  - nbqa
+  - openpyxl
+  - pandas
+  - pip
+  - pyogrio
+  - python=3.13
+  - rasterio
   - requests
-  - statsmodels
-  - aiohttp
+  - rioxarray
   - scikit-learn
+  - statsmodels
   - zarr=2.18.4
   - pip:
       - ascat
