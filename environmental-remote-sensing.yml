@@ -23,6 +23,8 @@ dependencies:
   - jupyterlab_widgets==3.0.13
   - jupyter-server-proxy
   - jupyter_bokeh
+  - jupyterlab_widgets
+  - jupyterlab_server
   - lxml
   - mamba
   - matplotlib
