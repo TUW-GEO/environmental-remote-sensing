@@ -15,7 +15,6 @@ dependencies:
   - geoviews
   - hda
   - hvplot
-  - ipywidgets
   - isort
   - importlib-metadata=4.13.0
   - jupyter==1.1.1
@@ -24,8 +23,6 @@ dependencies:
   - jupyterlab_widgets==3.0.13
   - jupyter-server-proxy
   - jupyter_bokeh
-  - jupyterlab_widgets
-  - jupyterlab_server
   - lxml
   - mamba
   - matplotlib
