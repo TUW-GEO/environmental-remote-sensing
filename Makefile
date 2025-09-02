@@ -31,7 +31,8 @@ teardown:
 	rm -r $(PREFIX)
 
 $(CONDA_ENV_DIR): $(YML)
-	conda env create --prefix $@ --file $^
+	conda create --clone base --prefix $@
+	conda env update --file $^ -p $@
 
 environment: $(CONDA_ENV_DIR)
 	@echo -e "conda environments are ready."
