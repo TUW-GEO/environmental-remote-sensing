@@ -15,6 +15,7 @@ dependencies:
   - geoviews
   - hda
   - hvplot
+  - ipywidgets
   - isort
   - importlib-metadata=4.13.0
   - jupyter==1.1.1
