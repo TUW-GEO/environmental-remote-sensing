@@ -18,7 +18,10 @@ dependencies:
   - isort
   - importlib-metadata=4.13.0
   - jupyter
+  - jupyter-server-proxy
   - jupyter_bokeh
+  - jupyterlab_widgets
+  - jupyterlab_server
   - lxml
   - mamba
   - matplotlib
