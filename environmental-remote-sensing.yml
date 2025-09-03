@@ -45,4 +45,5 @@ dependencies:
       - pynetcf
       - pre-commit
       - pyswi
+      - pyviz_comms==3.0.4
       - .
