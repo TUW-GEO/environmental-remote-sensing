@@ -2,6 +2,48 @@
 name = "envrs"
 version = "0.1.0"
 requires-python = ">=3.13"
+dependencies = [
+    "aiohttp",
+    "ascat",
+    "black",
+    "cartopy",
+    "cython",  # required by pyswi
+    "dask",
+    "datashader",
+    "earthaccess",
+    "ffmpeg",
+    "fiona",
+    "flake8-nb",
+    "folium",
+    "geopandas",
+    "geoviews",
+    "hda",
+    "hvplot",
+    "importlib-metadata==4.13.0",
+    "isort",
+    "jupyter",
+    "jupyter_bokeh",
+    "lxml",
+    "mamba",
+    "matplotlib",
+    "numcodecs==0.15",  # required by zarr
+    "nbqa",
+    "openpyxl",
+    "pandas",
+    "pdbufr",
+    "pip",
+    "pre-commit",
+    "pynetcf",
+    "pyogrio",
+    "pyswi",  # requires cython
+    "python-dotenv",
+    "rasterio",
+    "requests",
+    "rioxarray",
+    "scikit-learn",
+    "statsmodels",
+    "zarr==2.18.4",
+]
 
 [build-system]
 requires = ["uv_build >= 0.7.19, <0.9.0"]
