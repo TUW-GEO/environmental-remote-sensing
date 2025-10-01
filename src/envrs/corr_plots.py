@@ -36,7 +36,7 @@ def get_conda_base():
                 text=True,
                 check=True,
             )
-            return result.stdout.strip() + "/environmental-remote-sensing"
+            return result.stdout.strip() + "/envs/environmental-remote-sensing"
         except subprocess.CalledProcessError:
             pass
 
@@ -54,7 +54,7 @@ def get_micromamba_base():
                 check=True,
             )
             info = json.loads(result.stdout)
-            return info.get("root_prefix") + "/environmental-remote-sensing"
+            return info.get("root_prefix") + "/envs/environmental-remote-sensing"
         except (subprocess.CalledProcessError, json.JSONDecodeError, KeyError):
             pass
 
