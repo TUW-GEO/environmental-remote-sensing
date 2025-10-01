@@ -9,6 +9,8 @@ Returns
 """
 
 import json
+import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -20,38 +22,58 @@ from IPython.display import HTML
 from matplotlib.animation import FuncAnimation
 
 
-def get_git_repo_name():
-    try:
-        toplevel_path = subprocess.check_output(
-            ["git", "rev-parse", "--show-toplevel"],  # noqa
-            stderr=subprocess.DEVNULL,
-            text=True,
-        ).strip()
+def get_conda_base():
+    conda_prefix = os.environ.get("CONDA_PREFIX")
+    if conda_prefix:
+        return conda_prefix
 
-        return Path(toplevel_path).name
-    except subprocess.CalledProcessError:
-        return None
+    conda_exe = shutil.which("conda")
+    if conda_exe:
+        try:
+            result = subprocess.run(
+                ["conda", "info", "--base"],  # noqa
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            return result.stdout.strip() + "/environmental-remote-sensing"
+        except subprocess.CalledProcessError:
+            pass
+
+    return None
+
+
+def get_micromamba_base():
+    micromamba_exe = shutil.which("micromamba")
+    if micromamba_exe:
+        try:
+            result = subprocess.run(
+                ["micromamba", "info", "--json"],  # noqa
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            info = json.loads(result.stdout)
+            return info.get("root_prefix") + "/environmental-remote-sensing"
+        except (subprocess.CalledProcessError, json.JSONDecodeError, KeyError):
+            pass
+
+    return None
 
 
 def get_conda_env_path():
-    conda_prefix = Path("../.conda_envs")
-    result = subprocess.run(
-        ["conda", "info", "--json"],  # noqa
-        check=False,
-        capture_output=True,
-        text=True,
-    )
-    info = json.loads(result.stdout)
-    envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
-    if len(envs) == 0:
-        # when cached on GH actions
-        root_gh_cache = "/home/runner/work/eo-datascience/eo-datascience/"
-        return root_gh_cache + ".conda_envs/environmental-remote-sensing"
-    if conda_prefix.is_dir():
-        conda_prefix_path = f"{get_git_repo_name()}/{conda_prefix.name}"
-        envs_with_prefix = [s for s in envs if conda_prefix_path in s]
-        return next(iter(envs_with_prefix), None)
-    return next(iter(envs), None)
+    conda_base = get_conda_base()
+    if conda_base:
+        print(f"Conda base path: {conda_base}")
+        return conda_base
+
+    micromamba_base = get_micromamba_base()
+    if micromamba_base:
+        print(f"Micromamba base path: {micromamba_base}")
+        return micromamba_base
+
+    print("Neither Conda nor Micromamba is installed or detected.")
+    return None
 
 
 ffmpeg_path = Path(get_conda_env_path()) / Path("bin/ffmpeg")
