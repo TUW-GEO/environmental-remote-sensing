@@ -21,6 +21,8 @@ import statsmodels.tsa.stattools as smt
 from IPython.display import HTML
 from matplotlib.animation import FuncAnimation
 
+CONDA_PATH = Path("envs", "environmental-remote-sensing")
+
 
 def get_conda_base():
     conda_prefix = os.environ.get("CONDA_PREFIX")
@@ -36,7 +38,7 @@ def get_conda_base():
                 text=True,
                 check=True,
             )
-            return result.stdout.strip() + "/envs/environmental-remote-sensing"
+            return Path(result.stdout.strip()) / CONDA_PATH
         except subprocess.CalledProcessError:
             pass
 
@@ -44,6 +46,10 @@ def get_conda_base():
 
 
 def get_micromamba_base():
+    conda_prefix = os.environ.get("CONDA_PREFIX")
+    if conda_prefix:
+        return conda_prefix
+
     micromamba_exe = shutil.which("micromamba")
     if micromamba_exe:
         try:
@@ -54,7 +60,7 @@ def get_micromamba_base():
                 check=True,
             )
             info = json.loads(result.stdout)
-            return info.get("root_prefix") + "/envs/environmental-remote-sensing"
+            return Path(info.get("root_prefix")) / CONDA_PATH
         except (subprocess.CalledProcessError, json.JSONDecodeError, KeyError):
             pass
 
