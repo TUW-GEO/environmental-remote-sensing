@@ -24,43 +24,23 @@ from matplotlib.animation import FuncAnimation
 CONDA_PATH = Path("envs", "environmental-remote-sensing")
 
 
-def get_conda_base():
+def get_base(solver: str):
     conda_prefix = os.environ.get("CONDA_PREFIX")
     if conda_prefix:
         return conda_prefix
 
-    conda_exe = shutil.which("conda")
+    conda_exe = shutil.which(solver)
     if conda_exe:
         try:
             result = subprocess.run(
-                ["conda", "info", "--base"],  # noqa
+                [conda_exe, "info", "--json"],
+                check=False,
                 capture_output=True,
                 text=True,
-                check=True,
-            )
-            return Path(result.stdout.strip()) / CONDA_PATH
-        except subprocess.CalledProcessError:
-            pass
-
-    return None
-
-
-def get_micromamba_base():
-    conda_prefix = os.environ.get("CONDA_PREFIX")
-    if conda_prefix:
-        return conda_prefix
-
-    micromamba_exe = shutil.which("micromamba")
-    if micromamba_exe:
-        try:
-            result = subprocess.run(
-                ["micromamba", "info", "--json"],  # noqa
-                capture_output=True,
-                text=True,
-                check=True,
             )
             info = json.loads(result.stdout)
-            return Path(info.get("root_prefix")) / CONDA_PATH
+            envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
+            return next(iter(envs), None)
         except (subprocess.CalledProcessError, json.JSONDecodeError, KeyError):
             pass
 
@@ -68,14 +48,12 @@ def get_micromamba_base():
 
 
 def get_conda_env_path():
-    conda_base = get_conda_base()
+    conda_base = get_base("conda")
     if conda_base:
-        print(f"Conda base path: {conda_base}")
         return conda_base
 
-    micromamba_base = get_micromamba_base()
+    micromamba_base = get_base("micromamba")
     if micromamba_base:
-        print(f"Micromamba base path: {micromamba_base}")
         return micromamba_base
 
     print("Neither Conda nor Micromamba is installed or detected.")
