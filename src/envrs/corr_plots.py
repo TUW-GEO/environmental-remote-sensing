@@ -1,5 +1,16 @@
+"""Conda path solver for ffmpeg and functions to plot correlations.
+
+Returns
+-------
+        Conda path : str
+        Correlation animation plot: IPython.display
+        R-squared plot: matplotlib.pyplot
+
+"""
+
 import json
 import os
+import shutil
 import subprocess
 from pathlib import Path
 
@@ -10,33 +21,43 @@ import statsmodels.tsa.stattools as smt
 from IPython.display import HTML
 from matplotlib.animation import FuncAnimation
 
+CONDA_PATH = Path("envs", "environmental-remote-sensing")
 
-def get_git_repo_name():
-    try:
-        toplevel_path = subprocess.check_output(
-            ["git", "rev-parse", "--show-toplevel"],
-            stderr=subprocess.DEVNULL,
-            text=True,
-        ).strip()
 
-        return os.path.basename(toplevel_path)
-    except subprocess.CalledProcessError:
-        return None
+def get_base(solver: str):
+    conda_prefix = os.environ.get("CONDA_PREFIX")
+    if conda_prefix:
+        return conda_prefix
+
+    conda_exe = shutil.which(solver)
+    if conda_exe:
+        try:
+            result = subprocess.run(
+                [conda_exe, "info", "--json"],
+                check=False,
+                capture_output=True,
+                text=True,
+            )
+            info = json.loads(result.stdout)
+            envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
+            return next(iter(envs), None)
+        except (subprocess.CalledProcessError, json.JSONDecodeError, KeyError):
+            pass
+
+    return None
 
 
 def get_conda_env_path():
-    result = subprocess.run(
-        ["conda", "info", "--json"], check=False, capture_output=True, text=True
-    )
-    info = json.loads(result.stdout)
-    envs = [s for s in info.get("envs") if "environmental-remote-sensing" in s]
-    if get_git_repo_name() is None:
-        return envs[0]
-    # when cached on GH actions
-    if envs == []:
-        ROOT_GH_CACHE = "/home/runner/work/eo-datascience/eo-datascience/"
-        return ROOT_GH_CACHE + ".conda_envs/environmental-remote-sensing"
-    return [s for s in envs if f"{get_git_repo_name()}/.conda_envs" in s][0]
+    conda_base = get_base("conda")
+    if conda_base:
+        return conda_base
+
+    micromamba_base = get_base("micromamba")
+    if micromamba_base:
+        return micromamba_base
+
+    print("Neither Conda nor Micromamba is installed or detected.")
+    return None
 
 
 ffmpeg_path = Path(get_conda_env_path()) / Path("bin/ffmpeg")
@@ -61,8 +82,8 @@ def _plot_predicted_values(ax, df, variable, res, suffix):
     iv_l = pred_ols.summary_frame()["obs_ci_lower"]
     iv_u = pred_ols.summary_frame()["obs_ci_upper"]
     fitted = res.fittedvalues
-    x = df[variable].values
-    y = df["ndvi"].values
+    x = df[variable].to_numpy()
+    y = df["ndvi"].to_numpy()
     ax.set_title(f"{variable} {suffix}")
     ax.plot(x, y, "o", label="data", alpha=0.5)
     ax.plot(x, fitted, label="OLS")
